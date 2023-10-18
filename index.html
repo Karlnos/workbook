@@ -4,7 +4,7 @@
 	<title>Windows OS</title>
 	<style>
 		body {
-			background-image: url("background.png");
+			background-image: url("https://wallpaperaccess.com/full/1426474.jpg");
 			background-repeat: no-repeat;
 			background-size: cover;
 			height: 100vh;
@@ -57,6 +57,76 @@
 			width: 24px;
 			margin-right: 10px;
 		}
+
+		#iframe-container {
+			position: absolute;
+			bottom: 50px;
+			
+			left: 0;
+			background-color: white;
+			height: 200px;
+			width: 500px;
+			display: none;
+			padding: 10px;
+			z-index: 1;
+		}
+
+		#app-bar {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			background-color: white;
+			height: 50px;
+			width: 100%;
+			display: none;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			padding-left: 20px;
+			z-index: 2;
+		}
+
+		.app-icon {
+			background-repeat: no-repeat;
+			background-size: contain;
+			height: 20px;
+			width: 20px;
+			margin-right: 10px;
+			cursor: pointer;
+		}
+
+		.app-active {
+			color: #007bff;
+			border-bottom: 2px solid #007bff;
+		}
+
+		#exe-container {
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			background-color: white;
+			height: 70%;
+			width: 80%;
+			display: none;
+			z-index: 3;
+			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+			border-radius: 5px;
+			padding: 10px;
+		}
+
+		.exe-icon {
+			background-repeat: no-repeat;
+			background-size: contain;
+			height: 50px;
+			width: 50px;
+			margin: 10px;
+			cursor: pointer;
+		}
+
+		.exe-active {
+			color: #007bff;
+			border-bottom: 2px solid #007bff;
+		}
 	</style>
 </head>
 <body>
@@ -72,9 +142,56 @@
 		<div id="start-button"></div>
 		My Computer
 	</div>
+	<div id="iframe-container">
+		<iframe id="up-down-iframe" src="https://www.google.com" width="100%" height="100%" frameborder="0"></iframe>
+	</div>
+	<div id="app-bar">
+		<div class="app-icon app-active" data-target="#up-down-iframe">Up/Down IFrame</div>
+		<div class="app-icon" data-target="#exe-container">Exe App 1</div>
+		<div class="app-icon" data-target="#exe-container">Exe App 2</div>
+	</div>
+	<div id="exe-container">
+		<div class="exe-icon exe-active"></div>
+		<div class="exe-icon"></div>
+		<div class="exe-icon"></div>
+		<div class="exe-icon"></div>
+		<div class="exe-icon"></div>
+		<div class="exe-icon"></div>
+	</div>
 </body>
-</html> 
-
 <script>
-	//Javascript can be added here if needed
+	const icons = document.querySelectorAll('.icon');
+	const iframeContainer = document.querySelector('#iframe-container');
+	const appIcons = document.querySelectorAll('.app-icon');
+	const exeIcons = document.querySelectorAll('.exe-icon')
+	const appbar = document.querySelector('#app-bar');
+	const exeContainer = document.querySelector('#exe-container');
+	const upDownIframe = document.querySelector('#up-down-iframe');
+
+	icons.forEach(icon => {
+		icon.addEventListener('click', () => {
+			iframeContainer.style.display = 'block';
+		})
+	})
+
+	appIcons.forEach(appIcon => {
+		appIcon.addEventListener('click', () => {
+			const target = appIcon.getAttribute('data-target');
+			appIcons.forEach(aIcon => aIcon.classList.remove('app-active'));
+			appIcon.classList.add('app-active');
+			iframeContainer.style.display = 'none';
+			exeContainer.style.display = 'none';
+			appbar.style.display = 'flex';
+			document.querySelector(target).style.display = 'block';
+		});
+	});
+
+	exeIcons.forEach(exeIcon => {
+		exeIcon.addEventListener('click', () => {
+			exeIcons.forEach(eIcon => eIcon.classList.remove('exe-active'));
+			exeIcon.classList.add('exe-active');
+		})
+	})
+
 </script>
+</html>
